@@ -18,5 +18,8 @@ execorders <- data.frame(number = content[[1]][1], subject = content[[1]][2], da
 baseurl <- "https://nj.gov/infobank/eo/056murphy/pdf/"
 execorders$URL <- paste0(baseurl,"EO-",execorders$Number,".pdf")
 
+# Replace appendix URLs with correct format
+execorders$URL[is.na(strtoi(execorders$Number)) == TRUE] <- paste0(substr(execorders$URL,1,nchar(execorders$URL)-5),
+                                                                   "-APPENDIX%20A.pdf")[is.na(strtoi(execorders$Number)) == TRUE]
 # Write out the scraped data
 write.csv(execorders,'execorders.csv',row.names = FALSE)
